@@ -2,6 +2,8 @@ package com.optimagrowth.license.controller;
 
 import java.util.Locale;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,6 +25,8 @@ import com.optimagrowth.license.service.LicenseService;
 @RestController
 @RequestMapping(value = "v1/organization/{organizationId}/license")
 public class LicenseController {
+	
+	private static Logger log = LoggerFactory.getLogger(LicenseController.class);
 
 	@Autowired
 	private LicenseService licenseService;
@@ -41,6 +45,9 @@ public class LicenseController {
 						.withRel("updateLicense"),
 				linkTo(methodOn(LicenseController.class).deleteLicense(organizationId, license.getLicenseId()))
 						.withRel("deleteLicense"));
+		
+		log.info("getLicense: {}", license);
+		
 		return ResponseEntity.ok(license);
 
 	}
@@ -48,6 +55,8 @@ public class LicenseController {
 	@PutMapping
 	public ResponseEntity<String> updateLicense(@PathVariable("organizationId") String organizationId,
 			@RequestBody License request) {
+		
+		log.info("updateLicense: {}", request);
 
 		return ResponseEntity.ok(licenseService.updateLicense(request, organizationId));
 	}
@@ -55,12 +64,18 @@ public class LicenseController {
 	@PostMapping
 	public ResponseEntity<String> createLicense(@PathVariable("organizationId") String organizationId,
 			@RequestBody License request, @RequestHeader(value = "Accept-Language", required = false) Locale locale) {
+		
+		log.info("createLicense: {}", request);
+		
 		return ResponseEntity.ok(licenseService.createLicense(request, organizationId, locale));
 	}
 
 	@DeleteMapping(value = "/{licenseId}")
 	public ResponseEntity<String> deleteLicense(@PathVariable("organizationId") String organizationId,
 			@PathVariable("licenseId") String licenseId) {
+		
+		log.info("deleteLicense", licenseId);
+		
 		return ResponseEntity.ok(licenseService.deleteLicense(licenseId, organizationId));
 	}
 
