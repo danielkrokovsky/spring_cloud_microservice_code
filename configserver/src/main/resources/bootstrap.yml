@@ -3,16 +3,21 @@ spring:
     name: config-server
   
   profiles:
-    active: native
-    
+    active: 
+    - native, git
   cloud:
     config:
       server:
         #Local configuration: This locations can either of classpath or locations in the filesystem.
-        native:
+        #native:
           #Reads from a specific filesystem folder
           #search-locations: file:///{FILE_PATH} 
-          search-locations: classpath:/config
+          #search-locations: classpath:/config
+        git:
+          uri: https://github.com/danielkrokovsky/config_server
+          searchPaths: licensing-service, eureka-server
+          default-label: main
+          
 
 server:
   port: 8071
