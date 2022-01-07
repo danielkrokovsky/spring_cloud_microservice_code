@@ -4,7 +4,7 @@ spring:
   
   profiles:
     active: 
-    - native, git
+    - git
   cloud:
     config:
       server:
@@ -15,7 +15,7 @@ spring:
           #search-locations: classpath:/config
         git:
           uri: https://github.com/danielkrokovsky/config_server
-          searchPaths: licensing-service, eureka-server
+          searchPaths: organization-service, licensing-service, eureka-server
           default-label: main
           
 
